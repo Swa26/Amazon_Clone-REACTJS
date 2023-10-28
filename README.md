@@ -1,4 +1,4 @@
-# Amazon Clone Webiste App
+# Amazon Clone Web App
 
 ## Objective
 Amazon Web App Clone
