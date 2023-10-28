@@ -1,5 +1,4 @@
 {
-  "homepage": "http://Swa26.github.io/Amazon_Clone-REACTJS",
   "name": "amazon_clone",
   "version": "0.1.0",
   "private": true,
@@ -14,21 +13,22 @@
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.5.1",
     "bootstrap": "^5.3.2",
+    "firebase": "^10.5.0",
     "framer-motion": "^10.16.4",
     "react": "^18.2.0",
     "react-bootstrap": "^2.9.0",
     "react-dom": "^18.2.0",
+    "react-loader-spinner": "^5.4.5",
     "react-redux": "^8.1.3",
     "react-router-dom": "^6.16.0",
     "react-scripts": "5.0.1",
     "react-slick": "^0.29.0",
+    "redux-persist": "^6.0.0",
     "slick-carousel": "^1.8.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
     "start": "react-scripts start",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

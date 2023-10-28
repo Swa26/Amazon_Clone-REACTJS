@@ -4,23 +4,36 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { ArrowDropDown } from '@mui/icons-material/';
 import { ShoppingCart } from '@mui/icons-material/';
 import { Search } from '@mui/icons-material/';
+import { Logout } from '@mui/icons-material/';
 import { logo } from '../..';
 import { all } from '../../constants';
 import HeaderBottom from './HeaderBottom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { getAuth, signOut } from "firebase/auth";
+import { userSignOut } from '../../Redux/amazonSlice';
 const Header = () => {
+  const auth = getAuth();
+  const dispatch=useDispatch();
   const [ShowAll, setShowall] = useState(false);
-  const products=useSelector((state)=>state.amazonReducer.products);
+  const products = useSelector((state) => state.amazon.products);
+  const userInfo = useSelector((state) => state.amazon.userInfo);
+  const handleLogout = () => {
+    signOut(auth).then(() => {
+      dispatch(userSignOut());
+    }).catch((error) => {
+      // An error happened.
+    });
+  }
   console.log(products);
   return (
     <div className='w-full sticky top-0 z-50'>
       <div className=' w-full bg-black text-white px-4 py-3 flex items-center gap-4'>
         {/*=========== Image Start =========== */}
         <Link to='/'>
-        <div className='headerhover'>
-          <img className='w-24 mt-2' src={logo} alt='Amazon Logo'></img>
-        </div>
+          <div className='headerhover'>
+            <img className='w-24 mt-2' src={logo} alt='Amazon Logo'></img>
+          </div>
         </Link>
         {/*=========== Image End =========== */}
 
@@ -58,10 +71,18 @@ const Header = () => {
         {/*=========== Search End =========== */}
 
         {/*=========== SignIn Start =========== */}
-        <div className=' flex flex-col items-start justify-center headerhover'>
-          <p className='text-sm mdl:text-xs text-white mdl:text-lightText font-light'>Hello,SignIN</p>
-          <p className='text-sm font-semibold text-WhiteText hidden mdl:inline-flex'>Accounts & Lists <span><ArrowDropDown /></span></p>
-        </div>
+        <Link to='/signin'>
+          <div className=' flex flex-col items-start justify-center headerhover'>
+            {
+              userInfo ? (
+                <p className='text-sm mdl:text-xs text-gray-100 mdl:text-medium font-medium'>{userInfo.username}</p>
+              ) : (
+                <p className='text-sm mdl:text-xs text-white mdl:text-lightText font-light'>Hello,SignIN</p>
+              )
+            }
+            <p className='text-sm font-semibold text-WhiteText hidden mdl:inline-flex'>Accounts & Lists <span><ArrowDropDown /></span></p>
+          </div>
+        </Link>
         {/*=========== SignIn End =========== */}
 
 
@@ -76,15 +97,29 @@ const Header = () => {
 
         {/*=========== Cart Start =========== */}
         <Link to='/cart'>
-        <div className=' flex items-start justify-center headerhover relative'>
-          <ShoppingCart />
-          <p className=' text-xs text-lightText font-semibold mt-3'>Cart<span className='absolute flex justify-center items-center text-xs -top-1 p-1 h-4 left-6 font-semibold bg-amazon_yellow text-amazon_light rounded-full'>{products.length>0?products.length:0}</span></p>
-        </div>
+          <div className=' flex items-start justify-center headerhover relative'>
+            <ShoppingCart />
+            <p className=' text-xs text-lightText font-semibold mt-3'>Cart<span className='absolute flex justify-center items-center text-xs -top-1 p-1 h-4 left-6 font-semibold bg-amazon_yellow text-amazon_light rounded-full'>{products.length > 0 ? products.length : 0}</span></p>
+          </div>
         </Link>
         {/*=========== Cart End =========== */}
 
+
+        {/*=========== Logout Start =========== */}
+        {
+          userInfo && (
+            <div onClick={handleLogout} className=' flex flex-col items-start justify-center headerhover relative'>
+              <Logout />
+              <p className=' text-xs text-lightText font-semibold'>Log Out</p>
+            </div>
+          )
+        }
+        {/*=========== Logout End =========== */}
+
+
+
       </div>
-      <HeaderBottom/>
+      <HeaderBottom />
     </div>
 
   )

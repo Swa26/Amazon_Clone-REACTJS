@@ -20,9 +20,10 @@ import emptycart from './assets/emptyCart.png';
 import orderplaced from './assets/orderPlaced.png';
 import test from './assets/testing.png';
 import "slick-carousel/slick/slick.css";
-import { store } from './Redux/store';
+import { store,persistor } from './Redux/store';
 import { Provider } from 'react-redux';
-
+import { PersistGate } from 'redux-persist/integration/react';
+import firebaseConfig from './firebase.config';
 export {
   logo, banner, banner1, banner2, banner3, banner4, logoblack, logofooter, orderplaced, test, emptycart, banner5, banner6, banner7, banner8, banner9, bharatflag
 }
@@ -33,7 +34,9 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <Provider store={store}>
+      <PersistGate loading={"loading"} persistor={persistor}>
       <App />
+      </PersistGate>
     </Provider>
   </React.StrictMode>
 );
